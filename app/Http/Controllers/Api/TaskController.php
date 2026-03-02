@@ -57,6 +57,35 @@ class TaskController extends Controller
             'message' => 'Tugas berhasil dihapus!'
         ], 200);
     }
+    public function apiUpdate(Request $request, $id)
+    {
+        // 1. Cari data berdasarkan ID
+        $task = Task::find($id);
+
+        // 2. Jika data tidak ditemukan, kirim error 404
+        if (!$task) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan!'
+            ], 404);
+        }
+
+        // 3. Update data yang dikirim dari Thunder Client
+        $task->update([
+            'nama_tugas'   => $request->nama_tugas ?? $task->nama_tugas,
+            'deadline'     => $request->deadline ?? $task->deadline,
+            'priority'     => $request->priority ?? $task->priority,
+            'is_completed' => $request->is_completed ?? $task->is_completed,
+        ]);
+
+        // 4. Kirim respon sukses
+        return response()->json([
+            'success' => true,
+            'message' => 'Tugas berhasil diperbarui!',
+            'data'    => $task
+        ], 200);
+    }
+
     public function index(Request $request)
     {
         $view = $request->query('view');
