@@ -42,6 +42,21 @@ class TaskController extends Controller
             'data'    => $task
         ], 201);
     }
+    public function apiDestroy($id)
+    {
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        $task->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tugas berhasil dihapus!'
+        ], 200);
+    }
     public function index(Request $request)
     {
         $view = $request->query('view');
