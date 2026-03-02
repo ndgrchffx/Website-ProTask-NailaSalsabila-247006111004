@@ -18,7 +18,30 @@ class TaskController extends Controller
             'data'    => $tasks
         ], 200);
     }
+    public function apiStore(Request $request)
+    {
+        // 1. Validasi input agar tidak ada data kosong yang masuk
+        $request->validate([
+            'nama_tugas' => 'required',
+            'deadline'   => 'required',
+            'priority'   => 'required'
+        ]);
 
+        // 2. Simpan ke database menggunakan Model Task
+        $task = Task::create([
+            'nama_tugas'   => $request->nama_tugas,
+            'deadline'     => $request->deadline,
+            'priority'     => $request->priority,
+            'is_completed' => $request->is_completed ?? 0,
+        ]);
+
+        // 3. Kembalikan respon JSON sukses
+        return response()->json([
+            'success' => true,
+            'message' => 'Tugas berhasil disimpan melalui API!',
+            'data'    => $task
+        ], 201);
+    }
     public function index(Request $request)
     {
         $view = $request->query('view');
