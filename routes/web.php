@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Api\TaskController;
 
 // Halaman utama untuk lihat daftar tugas
 Route::get('/', [TaskController::class, 'index']);
